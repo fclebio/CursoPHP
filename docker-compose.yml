@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+  MySQLPHPData:
+
+services:
+
+  mysql-phpdev:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: senha
+      MYSQL_DATABASE: php
+    ports:
+      - "3306:3306"
+    volumes:
+      - "MySQLPHPData:/var/lib/mysql:rw"
+
+  php-dev:
+    build: .
+    environment:
+      MYSQL_ROOT_PASSWORD: senha
+      MYSQL_DATABASE: php
+    ports:
+      - "80:80"
+    volumes:
+      - "./src:/var/www/html/"
+    depends_on:
+      - mysql-phpdev
+    links:
+      - mysql-phpdev
+
+    
