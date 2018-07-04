@@ -49,13 +49,7 @@ class Usuario{
 
 
         if(isset($result[0])){
-
-            $row = $result[0];
-
-            $this->setId($row['id']);
-            $this->setLogin($row['login']);
-            $this->setSenha($row['senha']);
-            $this->setDtCadatro(new DateTime($row['dtcadatro']));
+            $this->setData($result[0]);
         }
 
     }
@@ -89,12 +83,8 @@ class Usuario{
 
         if(isset($result[0])){
 
-            $row = $result[0];
-
-            $this->setId($row['id']);
-            $this->setLogin($row['login']);
-            $this->setSenha($row['senha']);
-            $this->setDtCadatro(new DateTime($row['dtcadatro']));
+            $this->setData($result[0]);
+     
         }else{
             throw new Exception("Login ou senha invalido");
             
@@ -103,6 +93,35 @@ class Usuario{
 
     }
 
+    public function setData($data){
+        $this->setId($data['id']);
+        $this->setLogin($data['login']);
+        $this->setSenha($data['senha']);
+        $this->setDtCadatro(new DateTime($data['dtcadatro']));
+
+    }
+
+    public function insert(){
+
+        $sql = new Sql();
+
+        $result = $sql->select("CALL sp_usuarios_insert(:login, :senha)", array(
+            ":login"=>$this->getLogin(),
+            ":senha"=>$this->getSenha()
+        ));
+
+        if(count($result) > 0){
+            $this->setData($result[0]);
+        }
+      
+
+    }
+
+    public function __construct($login="" , $senha="" ){
+        $this->setLogin($login);
+        $this->setSenha($senha);
+
+    }
 
 
 

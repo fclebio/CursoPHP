@@ -16,11 +16,19 @@ require_once("config.php");
 // echo json_encode($busca);
 
 //carrrega usuário logado
-$usuario = new Usuario();
+// $usuario = new Usuario();
 
-$usuario->login("Jose", "12w212" );
+// $usuario->login("Jose", "12w212" );
 
-echo $usuario;
+//echo $usuario;
+
+$aluno = new Usuario("Batata", "Quente");
+
+
+$aluno->insert();
+
+echo $aluno;
+
 
 
 
