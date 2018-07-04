@@ -60,6 +60,52 @@ class Usuario{
 
     }
 
+    public static function getList(){
+
+        $sql = new Sql();
+
+        return  $sql->select("Select * from usuarios order by login ");
+
+    }
+
+    public static function busca($login){
+
+        $sql = new Sql();
+
+        return $sql->select("Select * from usuarios where login like :login order by login", array(":login"=>"%".$login."%"));
+
+    }
+
+    public function login($login, $senha){
+
+   
+        $sql = new Sql();
+
+        $result = $sql->select("Select * from usuarios where login = :login and senha = :senha", array(
+            ":login"=>$login,
+            "senha"=>$senha
+        ));
+
+
+        if(isset($result[0])){
+
+            $row = $result[0];
+
+            $this->setId($row['id']);
+            $this->setLogin($row['login']);
+            $this->setSenha($row['senha']);
+            $this->setDtCadatro(new DateTime($row['dtcadatro']));
+        }else{
+            throw new Exception("Login ou senha invalido");
+            
+        }
+
+
+    }
+
+
+
+
     public function __toString(){
 
     
